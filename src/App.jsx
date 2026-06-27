@@ -1,15 +1,27 @@
 import { useState } from "react";
 
+const PROJECT_XL_CODE = "19021998";
+
+const spotifyLink =
+  "https://open.spotify.com/playlist/18zI7kOaxYoWCaPSfe6jKh?si=zU-c-mjSReyuQ0N3QZD92g&pi=E1UXCJ_CTk6ED";
+
+const restaurants = [
+  ["Tirak", "Thai", "Clapham High Street", "4.5", "£10–50", "Modern Thai option", "Warm, relaxed, and probably the safest strong Sunday pick.", "https://www.google.com/search?q=Tirak+Clapham+High+Street"],
+  ["Rosa’s Thai Clapham", "Thai", "Northcote Road", "4.7", "£10–30", "Safe pretty reliable", "Easy, cute, dependable. Good if we want relaxed Thai without overthinking.", "https://www.google.com/search?q=Rosa%27s+Thai+Clapham+Northcote+Road"],
+  ["Mulan Noodle", "Chinese", "Acre Lane", "4.7", "£20–30", "Cosy Chinese dinner", "Chilled, warm and good for a food mission with proper comfort energy.", "https://www.google.com/search?q=Mulan+Noodle+Acre+Lane"],
+  ["Banana Tree Battersea", "Pan-Asian", "Battersea Rise", "4.6", "£20–30", "Cocktails + food", "Best if we want a livelier option with drinks and sharing plates.", "https://www.google.com/search?q=Banana+Tree+Battersea+Rise"],
+  ["Rosa’s Thai Tower Bridge", "Thai", "Tower Bridge", "4.6+", "£10–30", "Food + scenic walk", "Best if we want Thai food plus a river walk after.", "https://rosasthai.com/locations/tower-bridge-restaurant?utm_campaign=gmb&utm_medium=organic&utm_source=local"],
+];
+
 function App() {
   const [page, setPage] = useState("home");
   const [access, setAccess] = useState(false);
   const [code, setCode] = useState("");
 
-  const PROJECT_L_CODE = "19021998";
-
   const enterArchives = () => {
-    if (code.trim() === PROJECT_L_CODE) {
+    if (code.trim() === PROJECT_XL_CODE) {
       setAccess(true);
+      setPage("projectXL");
     } else {
       alert("Access denied. Archive code not recognised.");
     }
@@ -18,96 +30,76 @@ function App() {
   return (
     <main style={styles.app}>
       <nav style={styles.nav}>
-        <button onClick={() => setPage("home")} style={styles.logo}>
-          PETER OLAMIDE
-        </button>
-
+        <button onClick={() => setPage("home")} style={styles.logo}>PETER OLAMIDE</button>
         <div style={styles.navLinks}>
           <button onClick={() => setPage("projects")} style={styles.navLink}>Projects</button>
           <button onClick={() => setPage("focus")} style={styles.navLink}>Focus</button>
-          <button onClick={() => setPage("projectL")} style={styles.navLink}>Archives</button>
+          <button onClick={() => setPage("projectXL")} style={styles.navLink}>Archives</button>
         </div>
       </nav>
 
-      {page === "home" && (
-        <section style={styles.hero}>
-          <p style={styles.eyebrow}>PETER OLAMIDE</p>
-          <h1 style={styles.heroTitle}>
-            Building products.<br />Building experiences.
-          </h1>
-          <p style={styles.heroText}>
-            A collection of products, experiments, and ideas I&apos;m bringing to life.
-          </p>
-          <div style={styles.buttonRow}>
-            <button onClick={() => setPage("projects")} style={styles.primaryBtn}>Explore Projects →</button>
-            <button onClick={() => setPage("projectL")} style={styles.secondaryBtn}>The Project L Archives</button>
-          </div>
-        </section>
-      )}
-
-      {page === "projects" && (
-        <section style={styles.section}>
-          <p style={styles.eyebrow}>PUBLIC FILES</p>
-          <h2 style={styles.sectionTitle}>Projects</h2>
-          <p style={styles.sectionText}>
-            A growing collection of products, experiments, and ideas I&apos;m bringing to life.
-          </p>
-        </section>
-      )}
-
-      {page === "focus" && (
-        <section style={styles.section}>
-          <p style={styles.eyebrow}>CURRENT OPERATING SYSTEM</p>
-          <h2 style={styles.sectionTitle}>Focus</h2>
-        </section>
-      )}
-
-      {page === "projectL" && !access && (
-        <section style={styles.archiveLogin}>
-          <p style={styles.projectEyebrow}>LEVEL 4 ACCESS</p>
-          <h2 style={styles.archiveTitle}>The Project L Archives</h2>
-          <p style={styles.archiveText}>
-            Private files, GS records, Sunday options, and highly unnecessary documentation.
-          </p>
-
-          <div style={styles.loginBox}>
-            <label style={styles.label}>Archive Access Code</label>
-            <input
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="Enter access code"
-              style={styles.input}
-            />
-            <button onClick={enterArchives} style={styles.purpleBtn}>
-              Unlock Archives
-            </button>
-          </div>
-
-          <p style={styles.hint}>Hint: 19xxxxxx98</p>
-        </section>
-      )}
-
-      {page === "projectL" && access && <ProjectLArchives setPage={setPage} />}
-      {page === "sunday" && <SundayOptions setPage={setPage} />}
-      {page === "achievements" && <AchievementsPage setPage={setPage} />}
+      {page === "home" && <Home setPage={setPage} />}
+      {page === "projects" && <SimplePage title="Projects" eyebrow="PUBLIC FILES" text="A growing collection of products, experiments, and ideas I’m bringing to life." />}
+      {page === "focus" && <SimplePage title="Focus" eyebrow="CURRENT OPERATING SYSTEM" text="Career, products, experiments, discipline, Rarley, and the things currently being built." />}
+      {page === "projectXL" && !access && <AccessPage code={code} setCode={setCode} enterArchives={enterArchives} />}
+      {page === "projectXL" && access && <Archives setPage={setPage} />}
+      {page === "restaurants" && <Restaurants setPage={setPage} />}
+      {page === "moments" && <Moments setPage={setPage} />}
     </main>
   );
 }
 
-function ProjectLArchives({ setPage }) {
+function Home({ setPage }) {
+  return (
+    <section style={styles.hero}>
+      <p style={styles.eyebrow}>PETER OLAMIDE</p>
+      <h1 style={styles.heroTitle}>Building products.<br />Building experiences.</h1>
+      <p style={styles.heroText}>A collection of products, experiments, and ideas I&apos;m bringing to life.</p>
+      <div style={styles.buttonRow}>
+        <button onClick={() => setPage("projects")} style={styles.primaryBtn}>Explore Projects →</button>
+        <button onClick={() => setPage("projectXL")} style={styles.secondaryBtn}>The Project XL Archives</button>
+      </div>
+    </section>
+  );
+}
+
+function SimplePage({ title, eyebrow, text }) {
+  return (
+    <section style={styles.section}>
+      <p style={styles.eyebrow}>{eyebrow}</p>
+      <h1 style={styles.sectionTitle}>{title}</h1>
+      <p style={styles.sectionText}>{text}</p>
+    </section>
+  );
+}
+
+function AccessPage({ code, setCode, enterArchives }) {
+  return (
+    <section style={styles.accessPage}>
+      <p style={styles.projectEyebrow}>LEVEL 4 ACCESS</p>
+      <h1 style={styles.archiveTitle}>The Project XL Archives</h1>
+      <p style={styles.archiveText}>Private files, GS records, Sunday options, and highly unnecessary documentation.</p>
+
+      <div style={styles.loginBox}>
+        <label style={styles.label}>Archive Access Code</label>
+        <input value={code} onChange={(e) => setCode(e.target.value)} placeholder="Enter access code" style={styles.input} />
+        <button onClick={enterArchives} style={styles.purpleBtn}>Unlock Archives</button>
+      </div>
+
+      <p style={styles.hint}>Hint: 19xxxxxx98</p>
+    </section>
+  );
+}
+
+function Archives({ setPage }) {
   return (
     <section style={styles.projectPage}>
-      <div style={styles.projectHeader}>
+      <header style={styles.projectHeader}>
         <p style={styles.projectEyebrow}>ACCESS GRANTED</p>
-        <h1 style={styles.projectTitle}>The Project L Archives</h1>
-        <p style={styles.projectSub}>
-          Mission updates, GS balance, weekly music, and ongoing classified files.
-        </p>
-        <div style={styles.status}>
-          <span style={styles.statusDot}></span>
-          ACTIVE
-        </div>
-      </div>
+        <h1 style={styles.projectTitle}>The Project XL Archives</h1>
+        <p style={styles.projectSub}>Mission updates, GS balance, weekly music, and ongoing classified files.</p>
+        <div style={styles.status}><span style={styles.statusDot}></span>ACTIVE</div>
+      </header>
 
       <Newspaper />
 
@@ -118,47 +110,19 @@ function ProjectLArchives({ setPage }) {
       </div>
 
       <div style={styles.archiveGrid}>
-        <ArchiveCard
-          title="GS Wallet"
-          subtitle="Gold Star Economy"
-          body={"LAMi — 1 GS ⭐\nYolanda — 1 GS ⭐"}
-          purple
-        />
+        <ArchiveCard title="GS Wallet" subtitle="Gold Star Economy" purple custom={
+          <div style={styles.wallet}>
+            <div style={styles.walletRow}><span>LAMi</span><strong>1 GS ⭐</strong></div>
+            <div style={styles.walletRow}><span>Yolanda</span><strong>1 GS ⭐</strong></div>
+            <small style={styles.walletSmall}>Live balance ledger</small>
+          </div>
+        } />
 
-        <ArchiveCard
-          title="Mission Board"
-          subtitle="Possible Expeditions"
-          body="Tapas mission, Asian food expedition, theatre night, and other pending suggestions."
-        />
-
-        <ArchiveCard
-          title="Restaurant Shortlist"
-          subtitle="Sunday Date"
-          body=""
-          buttonText="View Sunday Options"
-          onClick={() => setPage("sunday")}
-        />
-
-        <ArchiveCard
-          title="Achievement"
-          subtitle="Recently Unlocked"
-          body=""
-          buttonText="View Achievement"
-          onClick={() => setPage("achievements")}
-        />
-
-        <ArchiveCard
-          title="Weekly Music"
-          subtitle="Transmission 001"
-          body="Spotify playlist link coming soon."
-          purple
-        />
-
-        <ArchiveCard
-          title="Archive Notes"
-          subtitle="Classified Recipient"
-          body="Further files may appear without warning. Continued curiosity is advised."
-        />
+        <ArchiveCard title="Mission Board" subtitle="Possible Expeditions" body="Tapas mission, Asian food expedition, theatre night, Uber Boat sunset, pup yoga, and other pending suggestions." />
+        <ArchiveCard title="Restaurant Shortlist" subtitle="Sunday Date" buttonText="Options" onClick={() => setPage("restaurants")} />
+        <ArchiveCard title="Achievement" subtitle="Recently Unlocked" buttonText="Open File" onClick={() => setPage("moments")} />
+        <ArchiveCard title="Weekly Music" subtitle="Transmission 001" body="Spotify playlist link is now active." buttonText="Open Spotify" link={spotifyLink} purple />
+        <ArchiveCard title="Archive Notes" subtitle="Classified Recipient" body="Further files may appear without warning. Continued curiosity is advised." />
       </div>
     </section>
   );
@@ -168,87 +132,86 @@ function Newspaper() {
   return (
     <div style={styles.newspaper}>
       <div style={styles.paperTop}>
-        <h2>The Project L Times</h2>
-        <span>LEVEL 4 CLEARANCE</span>
+        <h2 style={styles.paperName}>The Project XL Times</h2>
+        <span style={styles.paperStamp}>LEVEL 4 CLEARANCE</span>
       </div>
-
       <div style={styles.paperLine}></div>
-
       <div style={styles.paperMeta}>
-        <span>EDITION 001</span>
-        <span>SUNDAY FILE</span>
-        <span>CONFIDENTIAL</span>
+        <span>EDITION 001</span><span>SUNDAY FILE</span><span>CONFIDENTIAL</span>
       </div>
 
       <div style={styles.paperContent}>
         <div>
-          <h1>LOCAL WOMAN DECLARES NEW MORTAL ENEMY.</h1>
-          <p>
-            In a stunning turn of events, sources close to her confirm a new rival
-            has emerged. Details remain classified.
-          </p>
+          <h1 style={styles.paperHeadline}>LOCAL WOMAN DECLARES<br />NEW MORTAL ENEMY.</h1>
+          <p style={styles.paperBody}>In a stunning turn of events, sources close to her confirm a new rival has emerged. Details remain classified.</p>
         </div>
-
         <div style={styles.paperImage}></div>
       </div>
     </div>
   );
 }
 
-function SundayOptions({ setPage }) {
+function Restaurants({ setPage }) {
   return (
     <section style={styles.projectPage}>
-      <button onClick={() => setPage("projectL")} style={styles.backBtn}>
-        ← Back to Archives
-      </button>
+      <button onClick={() => setPage("projectXL")} style={styles.backBtn}>← Back to Archives</button>
+      <header style={styles.projectHeader}>
+        <p style={styles.projectEyebrow}>RESTAURANT SHORTLIST</p>
+        <h1 style={styles.projectTitle}>Sunday Options</h1>
+        <p style={styles.projectSub}>Five possible food missions. Final decision pending.</p>
+      </header>
 
-      <p style={styles.projectEyebrow}>RESTAURANT SHORTLIST</p>
-      <h1 style={styles.projectTitle}>Sunday Options</h1>
-
-      <div style={styles.archiveGrid}>
-        <ArchiveCard title="Option 01" subtitle="Restaurant" body="Restaurant option will go here." />
-        <ArchiveCard title="Option 02" subtitle="Restaurant" body="Restaurant option will go here." />
-        <ArchiveCard title="Option 03" subtitle="Restaurant" body="Restaurant option will go here." purple />
+      <div style={styles.restaurantGrid}>
+        {restaurants.map((r, i) => (
+          <a key={r[0]} href={r[7]} target="_blank" rel="noreferrer" style={styles.restaurantCard}>
+            <div style={styles.restaurantNumber}>{i + 1}</div>
+            <div style={styles.restaurantContent}>
+              <p style={styles.archiveSubtitle}>OPTION {i + 1}</p>
+              <h2 style={styles.restaurantName}>{r[0]}</h2>
+              <div style={styles.tags}>
+                <span>{r[1]}</span><span>{r[2]}</span><span>⭐ {r[3]}</span><span>{r[4]}</span>
+              </div>
+              <h3 style={styles.restaurantVibe}>{r[5]}</h3>
+              <p style={styles.archiveBody}>{r[6]}</p>
+              <button style={styles.cardButton}>View Details</button>
+            </div>
+          </a>
+        ))}
       </div>
     </section>
   );
 }
 
-function AchievementsPage({ setPage }) {
+function Moments({ setPage }) {
   return (
     <section style={styles.projectPage}>
-      <button onClick={() => setPage("projectL")} style={styles.backBtn}>
-        ← Back to Archives
-      </button>
-
-      <p style={styles.projectEyebrow}>ACHIEVEMENT FILE</p>
-      <h1 style={styles.projectTitle}>Achievements</h1>
+      <button onClick={() => setPage("projectXL")} style={styles.backBtn}>← Back to Archives</button>
+      <header style={styles.projectHeader}>
+        <p style={styles.projectEyebrow}>WALL OF MOMENTS</p>
+        <h1 style={styles.projectTitle}>Achievement File</h1>
+        <p style={styles.projectSub}>Small moments, officially over-documented.</p>
+      </header>
 
       <div style={styles.momentsGrid}>
         <div style={styles.momentCard}>
           <div style={styles.bottleImage}></div>
           <div>
             <p style={styles.archiveSubtitle}>YOLANDA</p>
-
             <h3>Water Bottle Resourcefulness</h3>
-            <p>Turned a simple water bottle into a possible cocktail shaker. Innovation under pressure.</p>
-
+            <p style={styles.archiveBody}>Turned a simple water bottle into a possible cocktail shaker. Innovation under pressure.</p>
             <h3>6 Hour Stats Exam</h3>
-            <p>Locked in for six hours and survived the statistics battlefield.</p>
-
+            <p style={styles.archiveBody}>Locked in for six hours and survived the statistics battlefield.</p>
             <h3>Trust Factor: Streatham Level 100</h3>
-            <p>Leaves her bike anywhere. Any time. No fear. Unmatched trust in the neighbourhood.</p>
+            <p style={styles.archiveBody}>No fear. Any time. Unmatched trust in the neighbourhood.</p>
           </div>
         </div>
 
         <div style={styles.momentCard}>
           <div>
             <p style={styles.archiveSubtitle}>PETER</p>
-
-            <h3>New Fan</h3>
-            <p>The newest addition to the setup. Keeping things cool while building everything.</p>
+            <h3>Emergency Climate-Control Investment</h3>
+            <p style={styles.archiveBody}>A new fan has entered the group chat. The oven room has officially met its match.</p>
           </div>
-
           <div style={styles.fanImage}></div>
         </div>
       </div>
@@ -257,417 +220,97 @@ function AchievementsPage({ setPage }) {
 }
 
 function Stat({ number, label }) {
-  return (
-    <div style={styles.stat}>
-      <strong>{number}</strong>
-      <span>{label}</span>
-    </div>
-  );
+  return <div style={styles.stat}><strong>{number}</strong><span>{label}</span></div>;
 }
 
-function ArchiveCard({ title, subtitle, body, purple, buttonText, onClick }) {
+function ArchiveCard({ title, subtitle, body, purple, buttonText, onClick, link, custom }) {
   return (
     <div style={purple ? styles.archiveCardPurple : styles.archiveCard}>
       <p style={styles.archiveSubtitle}>{subtitle}</p>
       <h3 style={styles.archiveCardTitle}>{title}</h3>
+      {custom}
       {body && <p style={styles.archiveBody}>{body}</p>}
-
-      {buttonText && (
-        <button onClick={onClick} style={styles.cardButton}>
-          {buttonText}
-        </button>
-      )}
+      {buttonText && !link && <button onClick={onClick} style={styles.cardButton}>{buttonText}</button>}
+      {buttonText && link && <a href={link} target="_blank" rel="noreferrer" style={{ ...styles.cardButton, textDecoration: "none" }}>{buttonText}</a>}
     </div>
   );
 }
 
+const grid = "repeat(auto-fit, minmax(260px, 1fr))";
+
 const styles = {
-  app: {
-    minHeight: "100vh",
-    background: "#030208",
-    color: "#fff",
-    fontFamily: "-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif",
-  },
+  app: { minHeight: "100vh", background: "#030208", color: "#fff", fontFamily: "-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif", overflowX: "hidden" },
+  nav: { minHeight: "72px", padding: "14px 4%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "18px", flexWrap: "wrap", borderBottom: "1px solid rgba(255,255,255,.1)", background: "rgba(3,2,8,.92)", position: "sticky", top: 0, zIndex: 10, backdropFilter: "blur(14px)" },
+  logo: { background: "none", border: "none", color: "#fff", letterSpacing: "7px", fontWeight: 800, cursor: "pointer" },
+  navLinks: { display: "flex", gap: "18px", overflowX: "auto" },
+  navLink: { background: "none", border: "none", color: "#ddd", fontSize: "15px", cursor: "pointer", whiteSpace: "nowrap" },
 
-  nav: {
-    height: "72px",
-    padding: "0 4%",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottom: "1px solid rgba(255,255,255,0.1)",
-    background: "rgba(3,2,8,0.92)",
-    position: "sticky",
-    top: 0,
-    zIndex: 10,
-    backdropFilter: "blur(14px)",
-  },
+  hero: { minHeight: "calc(100vh - 72px)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "40px 18px", background: "radial-gradient(circle at 70% 20%, rgba(168,85,247,.25), transparent 35%), #050505" },
+  eyebrow: { letterSpacing: "10px", color: "#888", fontSize: "12px" },
+  heroTitle: { fontSize: "clamp(46px, 9vw, 100px)", lineHeight: .95, letterSpacing: "-4px", margin: "28px 0" },
+  heroText: { color: "#aaa", fontSize: "clamp(20px, 3vw, 30px)", maxWidth: "760px", lineHeight: 1.4 },
+  buttonRow: { display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center", marginTop: "36px" },
+  primaryBtn: { padding: "18px 36px", borderRadius: "999px", border: "none", fontWeight: 800 },
+  secondaryBtn: { padding: "18px 36px", borderRadius: "999px", border: "1px solid #a855f7", background: "rgba(168,85,247,.15)", color: "#fff", fontWeight: 800 },
 
-  logo: {
-    background: "none",
-    border: "none",
-    color: "#fff",
-    letterSpacing: "8px",
-    fontWeight: 800,
-    cursor: "pointer",
-  },
+  section: { padding: "110px 9%", minHeight: "100vh" },
+  sectionTitle: { fontSize: "clamp(54px, 8vw, 90px)", letterSpacing: "-4px" },
+  sectionText: { color: "#aaa", fontSize: "24px", maxWidth: "760px" },
 
-  navLinks: {
-    display: "flex",
-    gap: "26px",
-  },
+  accessPage: { minHeight: "calc(100vh - 72px)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "40px 18px", background: "radial-gradient(circle at 50% 30%, rgba(168,85,247,.35), transparent 35%), #050505" },
+  projectEyebrow: { color: "#c084fc", letterSpacing: "8px", fontSize: "12px" },
+  archiveTitle: { fontSize: "clamp(48px, 8vw, 88px)", margin: "12px 0", letterSpacing: "-4px" },
+  archiveText: { color: "#bbb", fontSize: "21px", maxWidth: "700px" },
+  loginBox: { marginTop: "36px", width: "min(480px, 100%)", padding: "28px", borderRadius: "28px", border: "1px solid rgba(168,85,247,.5)", background: "rgba(255,255,255,.07)" },
+  label: { display: "block", textAlign: "left", color: "#ccc", marginBottom: "10px" },
+  input: { width: "100%", padding: "18px", borderRadius: "16px", border: "1px solid rgba(255,255,255,.2)", background: "#050505", color: "#fff", fontSize: "18px", marginBottom: "16px", boxSizing: "border-box" },
+  purpleBtn: { width: "100%", padding: "18px", borderRadius: "999px", border: "none", background: "linear-gradient(135deg,#7c3aed,#c084fc)", color: "#fff", fontWeight: 800, fontSize: "17px" },
+  hint: { color: "#777" },
 
-  navLink: {
-    background: "none",
-    border: "none",
-    color: "#ddd",
-    fontSize: "16px",
-    cursor: "pointer",
-  },
+  projectPage: { minHeight: "100vh", padding: "36px min(4vw, 42px) 80px", background: "radial-gradient(circle at 60% 8%, rgba(168,85,247,.45), transparent 30%), linear-gradient(180deg,#07030f,#030208)", overflowX: "hidden" },
+  projectHeader: { textAlign: "center", maxWidth: "900px", margin: "0 auto 34px" },
+  projectTitle: { fontSize: "clamp(42px, 7vw, 72px)", margin: "8px 0", letterSpacing: "-3px" },
+  projectSub: { color: "#ddd", fontSize: "20px" },
+  status: { margin: "20px auto 0", display: "inline-flex", alignItems: "center", gap: "12px", padding: "12px 28px", borderRadius: "999px", border: "1px solid rgba(255,255,255,.18)", background: "rgba(255,255,255,.08)", fontWeight: 800 },
+  statusDot: { width: "14px", height: "14px", borderRadius: "50%", background: "#22c55e", boxShadow: "0 0 18px #22c55e" },
 
-  hero: {
-    minHeight: "calc(100vh - 72px)",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-    padding: "24px",
-    background:
-      "radial-gradient(circle at 70% 20%, rgba(168,85,247,.25), transparent 35%), #050505",
-  },
+  newspaper: { width: "min(1180px, 100%)", margin: "0 auto 22px", padding: "clamp(20px, 4vw, 38px)", borderRadius: "18px", color: "#111", background: "linear-gradient(135deg,#f3eadc,#d8d0c3)", boxShadow: "0 0 50px rgba(168,85,247,.2)", boxSizing: "border-box" },
+  paperTop: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", flexWrap: "wrap" },
+  paperName: { fontFamily: "Georgia, serif", fontSize: "clamp(28px, 4vw, 44px)", margin: 0 },
+  paperStamp: { fontWeight: 900, fontSize: "12px" },
+  paperLine: { height: "2px", background: "#111", margin: "12px 0 8px" },
+  paperMeta: { display: "flex", justifyContent: "space-between", gap: "12px", fontSize: "11px", fontWeight: 900, borderBottom: "1px solid #111", paddingBottom: "8px" },
+  paperContent: { display: "grid", gridTemplateColumns: grid, gap: "28px", marginTop: "18px", alignItems: "stretch" },
+  paperHeadline: { fontFamily: "Georgia, serif", fontSize: "clamp(34px, 5vw, 62px)", lineHeight: .92, letterSpacing: "-2px", margin: "12px 0 18px" },
+  paperBody: { fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.35 },
+  paperImage: { minHeight: "220px", borderRadius: "6px", background: "linear-gradient(135deg,#111,#555)" },
 
-  eyebrow: {
-    letterSpacing: "12px",
-    color: "#888",
-    fontSize: "13px",
-  },
+  statsGrid: { display: "grid", gridTemplateColumns: grid, gap: "20px", maxWidth: "1180px", margin: "0 auto 20px" },
+  stat: { padding: "30px", borderRadius: "18px", textAlign: "center", border: "1px solid rgba(168,85,247,.25)", background: "rgba(255,255,255,.04)", display: "flex", flexDirection: "column", gap: "6px" },
+  archiveGrid: { maxWidth: "1180px", margin: "0 auto", display: "grid", gridTemplateColumns: grid, gap: "20px" },
+  archiveCard: { minHeight: "230px", padding: "26px", borderRadius: "18px", border: "1px solid rgba(255,255,255,.14)", background: "rgba(255,255,255,.04)", display: "flex", flexDirection: "column", alignItems: "flex-start", boxSizing: "border-box" },
+  archiveCardPurple: { minHeight: "230px", padding: "26px", borderRadius: "18px", border: "1px solid rgba(168,85,247,.55)", background: "linear-gradient(135deg,rgba(168,85,247,.35),rgba(255,255,255,.04))", display: "flex", flexDirection: "column", alignItems: "flex-start", boxSizing: "border-box" },
+  archiveSubtitle: { color: "#c084fc", letterSpacing: "5px", fontSize: "12px", textTransform: "uppercase" },
+  archiveCardTitle: { color: "#c084fc", fontSize: "26px", margin: "10px 0" },
+  archiveBody: { whiteSpace: "pre-line", color: "#eee", lineHeight: 1.6 },
+  cardButton: { marginTop: "auto", padding: "12px 22px", borderRadius: "999px", border: "none", background: "linear-gradient(135deg,#6d28d9,#a855f7)", color: "#fff", fontWeight: 800 },
+  wallet: { width: "100%", padding: "18px", borderRadius: "18px", background: "rgba(0,0,0,.22)", border: "1px solid rgba(255,215,130,.22)" },
+  walletRow: { display: "flex", justifyContent: "space-between", padding: "9px 0", color: "#ffd56a" },
+  walletSmall: { color: "#bda8ff", letterSpacing: "2px", textTransform: "uppercase", fontSize: "11px" },
 
-  heroTitle: {
-    fontSize: "clamp(54px, 9vw, 100px)",
-    lineHeight: 0.95,
-    letterSpacing: "-5px",
-    margin: "28px 0",
-  },
+  backBtn: { marginBottom: "30px", padding: "12px 20px", borderRadius: "999px", border: "1px solid rgba(255,255,255,.2)", background: "rgba(255,255,255,.05)", color: "#fff" },
+  restaurantGrid: { maxWidth: "1180px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" },
+  restaurantCard: { color: "white", textDecoration: "none", overflow: "hidden", display: "grid", gridTemplateColumns: grid, minHeight: "260px", border: "1px solid rgba(255,255,255,.14)", borderRadius: "22px", background: "rgba(255,255,255,.04)" },
+  restaurantNumber: { minHeight: "170px", display: "flex", alignItems: "center", justifyContent: "center", background: "radial-gradient(circle at 30% 30%, rgba(168,85,247,.7), transparent 36%), linear-gradient(135deg,#1b0b2d,#080312)", color: "#c084fc", fontSize: "54px", fontWeight: 900 },
+  restaurantContent: { padding: "24px" },
+  restaurantName: { fontSize: "30px", margin: "6px 0" },
+  tags: { display: "flex", flexWrap: "wrap", gap: "8px", margin: "14px 0" },
+  restaurantVibe: { color: "#c084fc" },
 
-  heroText: {
-    color: "#aaa",
-    fontSize: "clamp(20px, 3vw, 30px)",
-    maxWidth: "760px",
-    lineHeight: 1.4,
-  },
-
-  buttonRow: {
-    display: "flex",
-    gap: "16px",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    marginTop: "36px",
-  },
-
-  primaryBtn: {
-    padding: "18px 36px",
-    borderRadius: "999px",
-    border: "none",
-    fontWeight: 800,
-  },
-
-  secondaryBtn: {
-    padding: "18px 36px",
-    borderRadius: "999px",
-    border: "1px solid #a855f7",
-    background: "rgba(168,85,247,.15)",
-    color: "#fff",
-    fontWeight: 800,
-  },
-
-  section: {
-    padding: "110px 9%",
-    minHeight: "100vh",
-  },
-
-  sectionTitle: {
-    fontSize: "clamp(54px, 8vw, 90px)",
-    letterSpacing: "-4px",
-  },
-
-  sectionText: {
-    color: "#aaa",
-    fontSize: "24px",
-    maxWidth: "760px",
-  },
-
-  archiveLogin: {
-    minHeight: "calc(100vh - 72px)",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-    padding: "24px",
-    background:
-      "radial-gradient(circle at 50% 30%, rgba(168,85,247,.35), transparent 35%), #050505",
-  },
-
-  archiveTitle: {
-    fontSize: "clamp(50px, 8vw, 90px)",
-    margin: "12px 0",
-    letterSpacing: "-4px",
-  },
-
-  archiveText: {
-    color: "#bbb",
-    fontSize: "21px",
-    maxWidth: "700px",
-  },
-
-  loginBox: {
-    marginTop: "36px",
-    width: "min(480px, 100%)",
-    padding: "28px",
-    borderRadius: "28px",
-    border: "1px solid rgba(168,85,247,.5)",
-    background: "rgba(255,255,255,.07)",
-  },
-
-  label: {
-    display: "block",
-    textAlign: "left",
-    color: "#ccc",
-    marginBottom: "10px",
-  },
-
-  input: {
-    width: "100%",
-    padding: "18px",
-    borderRadius: "16px",
-    border: "1px solid rgba(255,255,255,.2)",
-    background: "#050505",
-    color: "#fff",
-    fontSize: "18px",
-    marginBottom: "16px",
-    boxSizing: "border-box",
-  },
-
-  purpleBtn: {
-    width: "100%",
-    padding: "18px",
-    borderRadius: "999px",
-    border: "none",
-    background: "linear-gradient(135deg,#7c3aed,#c084fc)",
-    color: "#fff",
-    fontWeight: 800,
-    fontSize: "17px",
-  },
-
-  hint: {
-    color: "#777",
-  },
-
-  projectPage: {
-    minHeight: "100vh",
-    padding: "36px 4% 80px",
-    background:
-      "radial-gradient(circle at 60% 8%, rgba(168,85,247,.45), transparent 30%), linear-gradient(180deg,#07030f,#030208)",
-  },
-
-  projectHeader: {
-    textAlign: "center",
-    maxWidth: "900px",
-    margin: "0 auto 34px",
-  },
-
-  projectEyebrow: {
-    color: "#c084fc",
-    letterSpacing: "9px",
-    fontSize: "13px",
-  },
-
-  projectTitle: {
-    fontSize: "clamp(44px, 7vw, 72px)",
-    margin: "8px 0",
-    letterSpacing: "-3px",
-  },
-
-  projectSub: {
-    color: "#ddd",
-    fontSize: "20px",
-  },
-
-  status: {
-    margin: "20px auto 0",
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "12px",
-    padding: "12px 28px",
-    borderRadius: "999px",
-    border: "1px solid rgba(255,255,255,.18)",
-    background: "rgba(255,255,255,.08)",
-    fontWeight: 800,
-  },
-
-  statusDot: {
-    width: "14px",
-    height: "14px",
-    borderRadius: "50%",
-    background: "#22c55e",
-    boxShadow: "0 0 18px #22c55e",
-  },
-
-  newspaper: {
-    maxWidth: "1180px",
-    margin: "0 auto 22px",
-    padding: "38px",
-    borderRadius: "14px",
-    color: "#111",
-    background: "linear-gradient(135deg,#f3eadc,#d8d0c3)",
-    boxShadow: "0 0 50px rgba(168,85,247,.2)",
-  },
-
-  paperTop: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-
-  paperLine: {
-    height: "2px",
-    background: "#111",
-    margin: "8px 0",
-  },
-
-  paperMeta: {
-    display: "flex",
-    justifyContent: "space-between",
-    fontSize: "12px",
-    fontWeight: 800,
-    borderBottom: "1px solid #111",
-    paddingBottom: "8px",
-  },
-
-  paperContent: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "28px",
-    marginTop: "18px",
-  },
-
-  paperImage: {
-    minHeight: "210px",
-    borderRadius: "4px",
-    background: "linear-gradient(135deg,#111,#555)",
-  },
-
-  statsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3,1fr)",
-    gap: "20px",
-    maxWidth: "1180px",
-    margin: "0 auto 20px",
-  },
-
-  stat: {
-    padding: "30px",
-    borderRadius: "18px",
-    textAlign: "center",
-    border: "1px solid rgba(168,85,247,.25)",
-    background: "rgba(255,255,255,.04)",
-    display: "flex",
-    flexDirection: "column",
-    gap: "6px",
-  },
-
-  archiveGrid: {
-    maxWidth: "1180px",
-    margin: "0 auto",
-    display: "grid",
-    gridTemplateColumns: "repeat(3,1fr)",
-    gap: "20px",
-  },
-
-  archiveCard: {
-    minHeight: "230px",
-    padding: "26px",
-    borderRadius: "18px",
-    border: "1px solid rgba(255,255,255,.14)",
-    background: "rgba(255,255,255,.04)",
-  },
-
-  archiveCardPurple: {
-    minHeight: "230px",
-    padding: "26px",
-    borderRadius: "18px",
-    border: "1px solid rgba(168,85,247,.55)",
-    background: "linear-gradient(135deg,rgba(168,85,247,.35),rgba(255,255,255,.04))",
-  },
-
-  archiveSubtitle: {
-    color: "#c084fc",
-    letterSpacing: "5px",
-    fontSize: "12px",
-    textTransform: "uppercase",
-  },
-
-  archiveCardTitle: {
-    color: "#c084fc",
-    fontSize: "26px",
-    margin: "10px 0",
-  },
-
-  archiveBody: {
-    whiteSpace: "pre-line",
-    color: "#eee",
-    lineHeight: 1.6,
-  },
-
-  cardButton: {
-    marginTop: "20px",
-    padding: "12px 22px",
-    borderRadius: "999px",
-    border: "none",
-    background: "linear-gradient(135deg,#6d28d9,#a855f7)",
-    color: "#fff",
-    fontWeight: 800,
-  },
-
-  backBtn: {
-    marginBottom: "30px",
-    padding: "12px 20px",
-    borderRadius: "999px",
-    border: "1px solid rgba(255,255,255,.2)",
-    background: "rgba(255,255,255,.05)",
-    color: "#fff",
-  },
-
-  momentsGrid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "20px",
-    maxWidth: "1180px",
-    margin: "40px auto",
-  },
-
-  momentCard: {
-    display: "grid",
-    gridTemplateColumns: "180px 1fr",
-    gap: "26px",
-    padding: "28px",
-    borderRadius: "22px",
-    border: "1px solid rgba(168,85,247,.35)",
-    background: "rgba(255,255,255,.04)",
-  },
-
-  bottleImage: {
-    minHeight: "280px",
-    borderRadius: "18px",
-    background: "linear-gradient(135deg,#5b21b6,#111)",
-  },
-
-  fanImage: {
-    minHeight: "280px",
-    borderRadius: "18px",
-    background: "radial-gradient(circle,#333,#050505)",
-  },
+  momentsGrid: { display: "grid", gridTemplateColumns: grid, gap: "20px", maxWidth: "1180px", margin: "40px auto" },
+  momentCard: { display: "grid", gridTemplateColumns: grid, gap: "26px", padding: "28px", borderRadius: "22px", border: "1px solid rgba(168,85,247,.35)", background: "rgba(255,255,255,.04)" },
+  bottleImage: { minHeight: "280px", borderRadius: "18px", background: "linear-gradient(135deg,#5b21b6,#111)" },
+  fanImage: { minHeight: "280px", borderRadius: "18px", background: "radial-gradient(circle,#333,#050505)" },
 };
 
 export default App;
