@@ -155,7 +155,7 @@ function Archives({ setPage }) {
 
       <div style={styles.statsGrid}>
         <Stat number="1 GS" label="LAMi Balance" />
-        <Stat number="1 GS" label="Yolanda Balance" />
+        <Stat number="-3 GS" label="Yolanda Balance" />
         <Stat number="03" label="Dates Completed" />
       </div>
 
