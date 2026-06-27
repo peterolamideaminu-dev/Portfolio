@@ -38,14 +38,9 @@ function App() {
           <p style={styles.heroText}>
             A collection of products, experiments, and ideas I&apos;m bringing to life.
           </p>
-
           <div style={styles.buttonRow}>
-            <button onClick={() => setPage("projects")} style={styles.primaryBtn}>
-              Explore Projects →
-            </button>
-            <button onClick={() => setPage("projectL")} style={styles.secondaryBtn}>
-              The Project L Archives
-            </button>
+            <button onClick={() => setPage("projects")} style={styles.primaryBtn}>Explore Projects →</button>
+            <button onClick={() => setPage("projectL")} style={styles.secondaryBtn}>The Project L Archives</button>
           </div>
         </section>
       )}
@@ -55,7 +50,7 @@ function App() {
           <p style={styles.eyebrow}>PUBLIC FILES</p>
           <h2 style={styles.sectionTitle}>Projects</h2>
           <p style={styles.sectionText}>
-            A growing collection of ventures, experiments, AI ideas, digital products, and concepts currently being built.
+            A growing collection of products, experiments, and ideas I&apos;m bringing to life.
           </p>
         </section>
       )}
@@ -64,25 +59,15 @@ function App() {
         <section style={styles.section}>
           <p style={styles.eyebrow}>CURRENT OPERATING SYSTEM</p>
           <h2 style={styles.sectionTitle}>Focus</h2>
-          <div style={styles.focusBox}>
-            <FocusItem label="Career & Analytics" value="80%" />
-            <FocusItem label="Rarley" value="55%" />
-            <FocusItem label="Website Ecosystem" value="70%" />
-            <FocusItem label="Health & Discipline" value="45%" />
-            <FocusItem label="Project L" value="Active" purple />
-          </div>
         </section>
       )}
 
       {page === "projectL" && !access && (
         <section style={styles.archiveLogin}>
-          <div style={styles.purpleGlow}></div>
-
           <p style={styles.projectEyebrow}>LEVEL 4 ACCESS</p>
           <h2 style={styles.archiveTitle}>The Project L Archives</h2>
-
           <p style={styles.archiveText}>
-            Private files, weekly uploads, GS records, mission notes, and highly unnecessary documentation.
+            Private files, GS records, Sunday options, and highly unnecessary documentation.
           </p>
 
           <div style={styles.loginBox}>
@@ -98,51 +83,45 @@ function App() {
             </button>
           </div>
 
-          <p style={styles.hint}>Hint: 19xxxx98.</p>
+          <p style={styles.hint}>Hint: 19xxxxxx98</p>
         </section>
       )}
 
-      {page === "projectL" && access && <ProjectLArchives />}
+      {page === "projectL" && access && <ProjectLArchives setPage={setPage} />}
+      {page === "sunday" && <SundayOptions setPage={setPage} />}
+      {page === "achievements" && <AchievementsPage setPage={setPage} />}
     </main>
   );
 }
 
-function ProjectLArchives() {
-  const spotifyLink = "https://open.spotify.com/";
-
+function ProjectLArchives({ setPage }) {
   return (
     <section style={styles.projectPage}>
       <div style={styles.projectHeader}>
         <p style={styles.projectEyebrow}>ACCESS GRANTED</p>
         <h1 style={styles.projectTitle}>The Project L Archives</h1>
-
         <p style={styles.projectSub}>
-          Mission updates, GS balance, weekly music, and ongoing classified nonsense.
+          Mission updates, GS balance, weekly music, and ongoing classified files.
         </p>
-
         <div style={styles.status}>
           <span style={styles.statusDot}></span>
           ACTIVE
         </div>
       </div>
 
-      <div style={styles.quoteBox}>
-        <p>
-          “I may not be able to give you the world, but I can promise you an interesting life.”
-        </p>
-      </div>
+      <Newspaper />
 
       <div style={styles.statsGrid}>
-        <Stat number="03" label="Dates Completed" />
         <Stat number="1 GS" label="LAMi Balance" />
         <Stat number="1 GS" label="Yolanda Balance" />
+        <Stat number="03" label="Dates Completed" />
       </div>
 
       <div style={styles.archiveGrid}>
         <ArchiveCard
           title="GS Wallet"
           subtitle="Gold Star Economy"
-          body="LAMi — 1 GS ⭐ | Yolanda — 1 GS ⭐"
+          body={"LAMi — 1 GS ⭐\nYolanda — 1 GS ⭐"}
           purple
         />
 
@@ -153,24 +132,25 @@ function ProjectLArchives() {
         />
 
         <ArchiveCard
-          title="Sunday Date"
-          subtitle="Restaurant Shortlist"
-          body="A list of possible restaurants will be uploaded here before Sunday."
+          title="Restaurant Shortlist"
+          subtitle="Sunday Date"
+          body=""
           buttonText="View Sunday Options"
+          onClick={() => setPage("sunday")}
         />
 
         <ArchiveCard
-          title="Achievements"
+          title="Achievement"
           subtitle="Recently Unlocked"
-          body="Heatwave Survivor, Water Bottle Shaker Prototype, and Pub Classification Dispute."
+          body=""
+          buttonText="View Achievement"
+          onClick={() => setPage("achievements")}
         />
 
         <ArchiveCard
           title="Weekly Music"
           subtitle="Transmission 001"
-          body="A weekly playlist link lives here."
-          link={spotifyLink}
-          buttonText="Open Spotify"
+          body="Spotify playlist link coming soon."
           purple
         />
 
@@ -184,12 +164,95 @@ function ProjectLArchives() {
   );
 }
 
-function FocusItem({ label, value, purple }) {
+function Newspaper() {
   return (
-    <div style={styles.focusItem}>
-      <span>{label}</span>
-      <strong style={purple ? styles.purpleText : null}>{value}</strong>
+    <div style={styles.newspaper}>
+      <div style={styles.paperTop}>
+        <h2>The Project L Times</h2>
+        <span>LEVEL 4 CLEARANCE</span>
+      </div>
+
+      <div style={styles.paperLine}></div>
+
+      <div style={styles.paperMeta}>
+        <span>EDITION 001</span>
+        <span>SUNDAY FILE</span>
+        <span>CONFIDENTIAL</span>
+      </div>
+
+      <div style={styles.paperContent}>
+        <div>
+          <h1>LOCAL WOMAN DECLARES NEW MORTAL ENEMY.</h1>
+          <p>
+            In a stunning turn of events, sources close to her confirm a new rival
+            has emerged. Details remain classified.
+          </p>
+        </div>
+
+        <div style={styles.paperImage}></div>
+      </div>
     </div>
+  );
+}
+
+function SundayOptions({ setPage }) {
+  return (
+    <section style={styles.projectPage}>
+      <button onClick={() => setPage("projectL")} style={styles.backBtn}>
+        ← Back to Archives
+      </button>
+
+      <p style={styles.projectEyebrow}>RESTAURANT SHORTLIST</p>
+      <h1 style={styles.projectTitle}>Sunday Options</h1>
+
+      <div style={styles.archiveGrid}>
+        <ArchiveCard title="Option 01" subtitle="Restaurant" body="Restaurant option will go here." />
+        <ArchiveCard title="Option 02" subtitle="Restaurant" body="Restaurant option will go here." />
+        <ArchiveCard title="Option 03" subtitle="Restaurant" body="Restaurant option will go here." purple />
+      </div>
+    </section>
+  );
+}
+
+function AchievementsPage({ setPage }) {
+  return (
+    <section style={styles.projectPage}>
+      <button onClick={() => setPage("projectL")} style={styles.backBtn}>
+        ← Back to Archives
+      </button>
+
+      <p style={styles.projectEyebrow}>ACHIEVEMENT FILE</p>
+      <h1 style={styles.projectTitle}>Achievements</h1>
+
+      <div style={styles.momentsGrid}>
+        <div style={styles.momentCard}>
+          <div style={styles.bottleImage}></div>
+          <div>
+            <p style={styles.archiveSubtitle}>YOLANDA</p>
+
+            <h3>Water Bottle Resourcefulness</h3>
+            <p>Turned a simple water bottle into a possible cocktail shaker. Innovation under pressure.</p>
+
+            <h3>6 Hour Stats Exam</h3>
+            <p>Locked in for six hours and survived the statistics battlefield.</p>
+
+            <h3>Trust Factor: Streatham Level 100</h3>
+            <p>Leaves her bike anywhere. Any time. No fear. Unmatched trust in the neighbourhood.</p>
+          </div>
+        </div>
+
+        <div style={styles.momentCard}>
+          <div>
+            <p style={styles.archiveSubtitle}>PETER</p>
+
+            <h3>New Fan</h3>
+            <p>The newest addition to the setup. Keeping things cool while building everything.</p>
+          </div>
+
+          <div style={styles.fanImage}></div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -202,22 +265,17 @@ function Stat({ number, label }) {
   );
 }
 
-function ArchiveCard({ title, subtitle, body, purple, link, buttonText }) {
+function ArchiveCard({ title, subtitle, body, purple, buttonText, onClick }) {
   return (
     <div style={purple ? styles.archiveCardPurple : styles.archiveCard}>
       <p style={styles.archiveSubtitle}>{subtitle}</p>
       <h3 style={styles.archiveCardTitle}>{title}</h3>
-      <p style={styles.archiveBody}>{body}</p>
+      {body && <p style={styles.archiveBody}>{body}</p>}
 
       {buttonText && (
-        <a
-          href={link || "#"}
-          target={link ? "_blank" : "_self"}
-          rel="noreferrer"
-          style={styles.cardButton}
-        >
+        <button onClick={onClick} style={styles.cardButton}>
           {buttonText}
-        </a>
+        </button>
       )}
     </div>
   );
@@ -226,111 +284,101 @@ function ArchiveCard({ title, subtitle, body, purple, link, buttonText }) {
 const styles = {
   app: {
     minHeight: "100vh",
-    background: "#050505",
+    background: "#030208",
     color: "#fff",
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif",
   },
 
   nav: {
-    height: "86px",
-    padding: "0 9%",
+    height: "72px",
+    padding: "0 4%",
     display: "flex",
-    alignItems: "center",
     justifyContent: "space-between",
-    borderBottom: "1px solid rgba(255,255,255,0.09)",
+    alignItems: "center",
+    borderBottom: "1px solid rgba(255,255,255,0.1)",
+    background: "rgba(3,2,8,0.92)",
     position: "sticky",
     top: 0,
-    zIndex: 20,
-    background: "rgba(5,5,5,0.86)",
-    backdropFilter: "blur(16px)",
+    zIndex: 10,
+    backdropFilter: "blur(14px)",
   },
 
   logo: {
     background: "none",
     border: "none",
     color: "#fff",
-    fontWeight: 800,
     letterSpacing: "8px",
-    fontSize: "15px",
+    fontWeight: 800,
     cursor: "pointer",
   },
 
   navLinks: {
     display: "flex",
-    gap: "24px",
+    gap: "26px",
   },
 
   navLink: {
     background: "none",
     border: "none",
-    color: "#aaa",
+    color: "#ddd",
     fontSize: "16px",
     cursor: "pointer",
   },
 
   hero: {
-    minHeight: "calc(100vh - 86px)",
+    minHeight: "calc(100vh - 72px)",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
     textAlign: "center",
-    padding: "80px 24px",
+    padding: "24px",
     background:
-      "radial-gradient(circle at 20% 20%, rgba(168,85,247,0.16), transparent 30%), radial-gradient(circle at 80% 80%, rgba(255,196,87,0.12), transparent 30%), #050505",
+      "radial-gradient(circle at 70% 20%, rgba(168,85,247,.25), transparent 35%), #050505",
   },
 
   eyebrow: {
     letterSpacing: "12px",
     color: "#888",
     fontSize: "13px",
-    marginBottom: "32px",
   },
 
   heroTitle: {
-    fontSize: "clamp(48px, 9vw, 104px)",
-    lineHeight: "0.95",
-    margin: 0,
-    fontWeight: 800,
+    fontSize: "clamp(54px, 9vw, 100px)",
+    lineHeight: 0.95,
     letterSpacing: "-5px",
+    margin: "28px 0",
   },
 
   heroText: {
-    maxWidth: "720px",
     color: "#aaa",
-    fontSize: "clamp(19px, 3vw, 30px)",
-    lineHeight: "1.45",
-    marginTop: "38px",
+    fontSize: "clamp(20px, 3vw, 30px)",
+    maxWidth: "760px",
+    lineHeight: 1.4,
   },
 
   buttonRow: {
     display: "flex",
     gap: "16px",
-    marginTop: "42px",
     flexWrap: "wrap",
     justifyContent: "center",
+    marginTop: "36px",
   },
 
   primaryBtn: {
     padding: "18px 36px",
     borderRadius: "999px",
     border: "none",
-    background: "#fff",
-    color: "#000",
     fontWeight: 800,
-    fontSize: "16px",
-    cursor: "pointer",
   },
 
   secondaryBtn: {
     padding: "18px 36px",
     borderRadius: "999px",
-    border: "1px solid rgba(168,85,247,0.55)",
-    background: "rgba(168,85,247,0.12)",
+    border: "1px solid #a855f7",
+    background: "rgba(168,85,247,.15)",
     color: "#fff",
-    fontWeight: 700,
-    fontSize: "16px",
-    cursor: "pointer",
+    fontWeight: 800,
   },
 
   section: {
@@ -339,114 +387,66 @@ const styles = {
   },
 
   sectionTitle: {
-    fontSize: "clamp(48px, 8vw, 92px)",
-    margin: "0 0 20px",
+    fontSize: "clamp(54px, 8vw, 90px)",
     letterSpacing: "-4px",
   },
 
   sectionText: {
     color: "#aaa",
     fontSize: "24px",
-    maxWidth: "780px",
-    lineHeight: 1.5,
-  },
-
-  focusBox: {
-    marginTop: "50px",
-    maxWidth: "720px",
-    border: "1px solid rgba(255,255,255,0.12)",
-    borderRadius: "28px",
-    overflow: "hidden",
-  },
-
-  focusItem: {
-    padding: "24px 28px",
-    display: "flex",
-    justifyContent: "space-between",
-    borderBottom: "1px solid rgba(255,255,255,0.08)",
-    fontSize: "18px",
-  },
-
-  purpleText: {
-    color: "#a855f7",
+    maxWidth: "760px",
   },
 
   archiveLogin: {
-    minHeight: "calc(100vh - 86px)",
+    minHeight: "calc(100vh - 72px)",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    padding: "70px 24px",
     textAlign: "center",
-    position: "relative",
-    overflow: "hidden",
+    padding: "24px",
     background:
-      "radial-gradient(circle at 50% 30%, rgba(168,85,247,0.32), transparent 35%), #050505",
-  },
-
-  purpleGlow: {
-    position: "absolute",
-    width: "420px",
-    height: "420px",
-    borderRadius: "50%",
-    background: "rgba(168,85,247,0.28)",
-    filter: "blur(120px)",
-  },
-
-  projectEyebrow: {
-    letterSpacing: "10px",
-    color: "#a855f7",
-    fontSize: "13px",
-    position: "relative",
-    zIndex: 2,
+      "radial-gradient(circle at 50% 30%, rgba(168,85,247,.35), transparent 35%), #050505",
   },
 
   archiveTitle: {
-    fontSize: "clamp(48px, 8vw, 92px)",
-    margin: "10px 0 20px",
+    fontSize: "clamp(50px, 8vw, 90px)",
+    margin: "12px 0",
     letterSpacing: "-4px",
-    position: "relative",
-    zIndex: 2,
   },
 
   archiveText: {
-    maxWidth: "680px",
-    color: "#aaa",
+    color: "#bbb",
     fontSize: "21px",
-    lineHeight: 1.5,
-    position: "relative",
-    zIndex: 2,
+    maxWidth: "700px",
   },
 
   loginBox: {
-    marginTop: "38px",
-    width: "min(460px, 100%)",
+    marginTop: "36px",
+    width: "min(480px, 100%)",
     padding: "28px",
     borderRadius: "28px",
-    background: "rgba(255,255,255,0.06)",
-    border: "1px solid rgba(168,85,247,0.4)",
-    position: "relative",
-    zIndex: 2,
+    border: "1px solid rgba(168,85,247,.5)",
+    background: "rgba(255,255,255,.07)",
   },
 
   label: {
     display: "block",
     textAlign: "left",
-    color: "#bbb",
+    color: "#ccc",
     marginBottom: "10px",
   },
 
   input: {
     width: "100%",
-    boxSizing: "border-box",
     padding: "18px",
     borderRadius: "16px",
-    border: "1px solid rgba(255,255,255,0.2)",
-    background: "#080808",
+    border: "1px solid rgba(255,255,255,.2)",
+    background: "#050505",
     color: "#fff",
     fontSize: "18px",
     marginBottom: "16px",
+    boxSizing: "border-box",
   },
 
   purpleBtn: {
@@ -454,148 +454,219 @@ const styles = {
     padding: "18px",
     borderRadius: "999px",
     border: "none",
-    background: "linear-gradient(135deg, #8b5cf6, #c084fc)",
+    background: "linear-gradient(135deg,#7c3aed,#c084fc)",
     color: "#fff",
     fontWeight: 800,
     fontSize: "17px",
-    cursor: "pointer",
   },
 
   hint: {
-    marginTop: "18px",
     color: "#777",
-    position: "relative",
-    zIndex: 2,
   },
 
   projectPage: {
-    background:
-      "radial-gradient(circle at 20% 15%, rgba(168,85,247,0.35), transparent 35%), radial-gradient(circle at 85% 30%, rgba(255,196,87,0.12), transparent 30%), linear-gradient(180deg, #12041f, #050505 46%)",
     minHeight: "100vh",
-    padding: "90px 9%",
+    padding: "36px 4% 80px",
+    background:
+      "radial-gradient(circle at 60% 8%, rgba(168,85,247,.45), transparent 30%), linear-gradient(180deg,#07030f,#030208)",
   },
 
   projectHeader: {
     textAlign: "center",
     maxWidth: "900px",
-    margin: "0 auto 50px",
+    margin: "0 auto 34px",
+  },
+
+  projectEyebrow: {
+    color: "#c084fc",
+    letterSpacing: "9px",
+    fontSize: "13px",
   },
 
   projectTitle: {
-    fontSize: "clamp(48px, 8vw, 92px)",
-    margin: "10px 0",
-    letterSpacing: "-4px",
+    fontSize: "clamp(44px, 7vw, 72px)",
+    margin: "8px 0",
+    letterSpacing: "-3px",
   },
 
   projectSub: {
-    color: "#aaa",
-    fontSize: "22px",
-    lineHeight: 1.5,
+    color: "#ddd",
+    fontSize: "20px",
   },
 
   status: {
-    margin: "32px auto 0",
+    margin: "20px auto 0",
     display: "inline-flex",
     alignItems: "center",
     gap: "12px",
-    padding: "18px 34px",
+    padding: "12px 28px",
     borderRadius: "999px",
-    background: "#111",
-    border: "1px solid rgba(168,85,247,0.45)",
+    border: "1px solid rgba(255,255,255,.18)",
+    background: "rgba(255,255,255,.08)",
     fontWeight: 800,
   },
 
   statusDot: {
-    width: "16px",
-    height: "16px",
+    width: "14px",
+    height: "14px",
     borderRadius: "50%",
-    background: "#4ade80",
-    boxShadow: "0 0 22px #4ade80",
+    background: "#22c55e",
+    boxShadow: "0 0 18px #22c55e",
   },
 
-  quoteBox: {
-    maxWidth: "850px",
-    margin: "0 auto 46px",
-    padding: "34px",
-    borderRadius: "30px",
-    textAlign: "center",
-    background: "rgba(255,255,255,0.06)",
-    border: "1px solid rgba(255,255,255,0.12)",
-    color: "#eee",
-    fontSize: "clamp(22px, 4vw, 36px)",
-    lineHeight: 1.35,
-    fontFamily: "Georgia, serif",
+  newspaper: {
+    maxWidth: "1180px",
+    margin: "0 auto 22px",
+    padding: "38px",
+    borderRadius: "14px",
+    color: "#111",
+    background: "linear-gradient(135deg,#f3eadc,#d8d0c3)",
+    boxShadow: "0 0 50px rgba(168,85,247,.2)",
+  },
+
+  paperTop: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  paperLine: {
+    height: "2px",
+    background: "#111",
+    margin: "8px 0",
+  },
+
+  paperMeta: {
+    display: "flex",
+    justifyContent: "space-between",
+    fontSize: "12px",
+    fontWeight: 800,
+    borderBottom: "1px solid #111",
+    paddingBottom: "8px",
+  },
+
+  paperContent: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "28px",
+    marginTop: "18px",
+  },
+
+  paperImage: {
+    minHeight: "210px",
+    borderRadius: "4px",
+    background: "linear-gradient(135deg,#111,#555)",
   },
 
   statsGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+    gridTemplateColumns: "repeat(3,1fr)",
     gap: "20px",
-    marginBottom: "50px",
+    maxWidth: "1180px",
+    margin: "0 auto 20px",
   },
 
   stat: {
-    background: "#fff",
-    color: "#070707",
-    padding: "32px",
-    borderRadius: "28px",
+    padding: "30px",
+    borderRadius: "18px",
     textAlign: "center",
+    border: "1px solid rgba(168,85,247,.25)",
+    background: "rgba(255,255,255,.04)",
     display: "flex",
     flexDirection: "column",
     gap: "6px",
   },
 
   archiveGrid: {
+    maxWidth: "1180px",
+    margin: "0 auto",
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-    gap: "22px",
+    gridTemplateColumns: "repeat(3,1fr)",
+    gap: "20px",
   },
 
   archiveCard: {
     minHeight: "230px",
-    padding: "30px",
-    borderRadius: "30px",
-    background: "rgba(255,255,255,0.06)",
-    border: "1px solid rgba(255,255,255,0.12)",
-    backdropFilter: "blur(16px)",
+    padding: "26px",
+    borderRadius: "18px",
+    border: "1px solid rgba(255,255,255,.14)",
+    background: "rgba(255,255,255,.04)",
   },
 
   archiveCardPurple: {
     minHeight: "230px",
-    padding: "30px",
-    borderRadius: "30px",
-    background: "linear-gradient(145deg, rgba(168,85,247,0.34), rgba(255,255,255,0.06))",
-    border: "1px solid rgba(168,85,247,0.55)",
-    backdropFilter: "blur(16px)",
+    padding: "26px",
+    borderRadius: "18px",
+    border: "1px solid rgba(168,85,247,.55)",
+    background: "linear-gradient(135deg,rgba(168,85,247,.35),rgba(255,255,255,.04))",
   },
 
   archiveSubtitle: {
     color: "#c084fc",
-    textTransform: "uppercase",
-    letterSpacing: "4px",
+    letterSpacing: "5px",
     fontSize: "12px",
+    textTransform: "uppercase",
   },
 
   archiveCardTitle: {
-    fontSize: "30px",
-    margin: "12px 0",
+    color: "#c084fc",
+    fontSize: "26px",
+    margin: "10px 0",
   },
 
   archiveBody: {
-    color: "#ddd",
+    whiteSpace: "pre-line",
+    color: "#eee",
     lineHeight: 1.6,
-    fontSize: "17px",
   },
 
   cardButton: {
-    display: "inline-block",
     marginTop: "20px",
-    padding: "13px 20px",
+    padding: "12px 22px",
     borderRadius: "999px",
-    background: "#fff",
-    color: "#000",
+    border: "none",
+    background: "linear-gradient(135deg,#6d28d9,#a855f7)",
+    color: "#fff",
     fontWeight: 800,
-    textDecoration: "none",
+  },
+
+  backBtn: {
+    marginBottom: "30px",
+    padding: "12px 20px",
+    borderRadius: "999px",
+    border: "1px solid rgba(255,255,255,.2)",
+    background: "rgba(255,255,255,.05)",
+    color: "#fff",
+  },
+
+  momentsGrid: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "20px",
+    maxWidth: "1180px",
+    margin: "40px auto",
+  },
+
+  momentCard: {
+    display: "grid",
+    gridTemplateColumns: "180px 1fr",
+    gap: "26px",
+    padding: "28px",
+    borderRadius: "22px",
+    border: "1px solid rgba(168,85,247,.35)",
+    background: "rgba(255,255,255,.04)",
+  },
+
+  bottleImage: {
+    minHeight: "280px",
+    borderRadius: "18px",
+    background: "linear-gradient(135deg,#5b21b6,#111)",
+  },
+
+  fanImage: {
+    minHeight: "280px",
+    borderRadius: "18px",
+    background: "radial-gradient(circle,#333,#050505)",
   },
 };
 
