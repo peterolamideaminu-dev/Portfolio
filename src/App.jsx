@@ -39,8 +39,8 @@ function App() {
       </nav>
 
       {page === "home" && <Home setPage={setPage} />}
-      {page === "projects" && <SimplePage title="Projects" eyebrow="PUBLIC FILES" text="A growing collection of products, experiments, and ideas I’m bringing to life." />}
-      {page === "focus" && <SimplePage title="Focus" eyebrow="CURRENT OPERATING SYSTEM" text="Career, products, experiments, discipline, Rarley, and the things currently being built." />}
+      {page === "projects" && <SimplePage title="Projects" eyebrow="PUBLIC FILES" />}
+      {page === "focus" && <SimplePage title="Focus" eyebrow="CURRENT OPERATING SYSTEM" />}
       {page === "projectXL" && !access && <AccessPage code={code} setCode={setCode} enterArchives={enterArchives} />}
       {page === "projectXL" && access && <Archives setPage={setPage} />}
       {page === "restaurants" && <Restaurants setPage={setPage} />}
@@ -63,12 +63,62 @@ function Home({ setPage }) {
   );
 }
 
-function SimplePage({ title, eyebrow, text }) {
+function SimplePage({ title, eyebrow }) {
+  const projects = [
+    ["RARLEY", "Brokerage, rare opportunities, luxury assets and high-value deal sourcing.", "Active Development"],
+    ["Project XL", "Private operating system for missions, archives, experiments and classified notes.", "Classified"],
+    ["Customer Intelligence Dashboard", "Power BI + SQL analytics exploring customer behaviour and business performance.", "Prototype"],
+    ["Hospitality AI", "Restaurant operations, customer experience and automation experiments.", "Research"],
+    ["Data Analytics Portfolio", "Business intelligence projects using SQL, Power BI, Python and commercial thinking.", "Growing"],
+    ["Personal Brand", "Photography, storytelling, lifestyle, music taste and digital experiences.", "Ongoing"],
+  ];
+
+  const focus = ["SQL", "Power BI", "Python", "Bioinformatics", "Project Management", "Rarley", "Gym", "Reading", "Project XL"];
+
+  if (title === "Projects") {
+    return (
+      <section style={styles.section}>
+        <p style={styles.eyebrow}>{eyebrow}</p>
+        <h1 style={styles.sectionTitle}>Projects</h1>
+        <p style={styles.sectionText}>
+          A few public-facing signals from the things currently being built.
+          Some files remain classified until release.
+        </p>
+
+        <div style={styles.portfolioGrid}>
+          {projects.map((project) => (
+            <div key={project[0]} style={styles.portfolioCard}>
+              <p style={styles.archiveSubtitle}>{project[2]}</p>
+              <h3 style={styles.archiveCardTitle}>{project[0]}</h3>
+              <p style={styles.archiveBody}>{project[1]}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section style={styles.section}>
       <p style={styles.eyebrow}>{eyebrow}</p>
-      <h1 style={styles.sectionTitle}>{title}</h1>
-      <p style={styles.sectionText}>{text}</p>
+      <h1 style={styles.sectionTitle}>Current Objectives</h1>
+      <p style={styles.sectionText}>
+        Current operating system: career growth, product building, discipline,
+        health, and quietly ambitious experiments.
+      </p>
+
+      <div style={styles.focusBox}>
+        <div style={styles.focusGrid}>
+          {focus.map((item) => (
+            <span key={item} style={styles.focusPill}>✓ {item}</span>
+          ))}
+        </div>
+
+        <div style={styles.systemHealth}>
+          <span>Current System Health</span>
+          <strong>████████░░ 81%</strong>
+        </div>
+      </div>
     </section>
   );
 }
@@ -119,7 +169,7 @@ function Archives({ setPage }) {
         } />
 
         <ArchiveCard title="Mission Board" subtitle="Possible Expeditions" body="Tapas mission, Asian food expedition, theatre night, Uber Boat sunset, pup yoga, and other pending suggestions." />
-        <ArchiveCard title="Restaurant Shortlist" subtitle="Sunday Date" buttonText="Options" onClick={() => setPage("restaurants")} />
+        <ArchiveCard title="Restaurant Shortlist" subtitle="" buttonText="Options" onClick={() => setPage("restaurants")} />
         <ArchiveCard title="Achievement" subtitle="Recently Unlocked" buttonText="Open File" onClick={() => setPage("moments")} />
         <ArchiveCard title="Weekly Music" subtitle="Transmission 001" body="Spotify playlist link is now active." buttonText="Open Spotify" link={spotifyLink} purple />
         <ArchiveCard title="Archive Notes" subtitle="Classified Recipient" body="Further files may appear without warning. Continued curiosity is advised." />
@@ -137,7 +187,7 @@ function Newspaper() {
       </div>
       <div style={styles.paperLine}></div>
       <div style={styles.paperMeta}>
-        <span>EDITION 001</span><span>SUNDAY FILE</span><span>CONFIDENTIAL</span>
+        <span>EDITION 001</span><span>CLASSIFIED FILE</span><span>LEVEL 4 CLEARANCE</span>
       </div>
 
       <div style={styles.paperContent}>
@@ -226,7 +276,7 @@ function Stat({ number, label }) {
 function ArchiveCard({ title, subtitle, body, purple, buttonText, onClick, link, custom }) {
   return (
     <div style={purple ? styles.archiveCardPurple : styles.archiveCard}>
-      <p style={styles.archiveSubtitle}>{subtitle}</p>
+      {subtitle && <p style={styles.archiveSubtitle}>{subtitle}</p>}
       <h3 style={styles.archiveCardTitle}>{title}</h3>
       {custom}
       {body && <p style={styles.archiveBody}>{body}</p>}
@@ -253,9 +303,16 @@ const styles = {
   primaryBtn: { padding: "18px 36px", borderRadius: "999px", border: "none", fontWeight: 800 },
   secondaryBtn: { padding: "18px 36px", borderRadius: "999px", border: "1px solid #a855f7", background: "rgba(168,85,247,.15)", color: "#fff", fontWeight: 800 },
 
-  section: { padding: "110px 9%", minHeight: "100vh" },
-  sectionTitle: { fontSize: "clamp(54px, 8vw, 90px)", letterSpacing: "-4px" },
-  sectionText: { color: "#aaa", fontSize: "24px", maxWidth: "760px" },
+  section: { padding: "110px 9%", minHeight: "100vh", background: "radial-gradient(circle at 70% 10%, rgba(168,85,247,.18), transparent 35%), #030208" },
+  sectionTitle: { fontSize: "clamp(54px, 8vw, 90px)", letterSpacing: "-4px", margin: "16px 0" },
+  sectionText: { color: "#aaa", fontSize: "24px", maxWidth: "760px", lineHeight: 1.45 },
+
+  portfolioGrid: { marginTop: "40px", display: "grid", gridTemplateColumns: grid, gap: "20px", maxWidth: "1180px" },
+  portfolioCard: { padding: "28px", borderRadius: "22px", border: "1px solid rgba(168,85,247,.25)", background: "rgba(255,255,255,.045)", boxShadow: "inset 0 0 45px rgba(168,85,247,.04)" },
+  focusBox: { marginTop: "40px", maxWidth: "900px", padding: "30px", borderRadius: "24px", border: "1px solid rgba(168,85,247,.25)", background: "rgba(255,255,255,.045)" },
+  focusGrid: { display: "flex", flexWrap: "wrap", gap: "12px" },
+  focusPill: { padding: "12px 16px", borderRadius: "999px", background: "rgba(168,85,247,.13)", border: "1px solid rgba(168,85,247,.25)", color: "#fff", fontWeight: 700 },
+  systemHealth: { marginTop: "28px", paddingTop: "24px", borderTop: "1px solid rgba(255,255,255,.12)", display: "flex", justifyContent: "space-between", gap: "18px", flexWrap: "wrap", color: "#c084fc", fontWeight: 800 },
 
   accessPage: { minHeight: "calc(100vh - 72px)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "40px 18px", background: "radial-gradient(circle at 50% 30%, rgba(168,85,247,.35), transparent 35%), #050505" },
   projectEyebrow: { color: "#c084fc", letterSpacing: "8px", fontSize: "12px" },
