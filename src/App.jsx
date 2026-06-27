@@ -163,7 +163,7 @@ function Archives({ setPage }) {
         <ArchiveCard title="GS Wallet" subtitle="Gold Star Economy" purple custom={
           <div style={styles.wallet}>
             <div style={styles.walletRow}><span>LAMi</span><strong>1 GS ⭐</strong></div>
-            <div style={styles.walletRow}><span>Yolanda</span><strong>1 GS ⭐</strong></div>
+            <div style={styles.walletRow}><span>Yolanda</span><strong>-3 GS ⭐</strong></div>
             <small style={styles.walletSmall}>Live balance ledger</small>
           </div>
         } />
