@@ -98,7 +98,7 @@ function App() {
             </button>
           </div>
 
-          <p style={styles.hint}>Hint: some dates are worth remembering.</p>
+          <p style={styles.hint}>Hint: 19xxxx98.</p>
         </section>
       )}
 
