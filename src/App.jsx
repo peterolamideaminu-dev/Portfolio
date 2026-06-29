@@ -349,10 +349,12 @@ const styles = {
   paperHeadline: { fontFamily: "Georgia, serif", fontSize: "clamp(34px, 5vw, 40px)", lineHeight: .92, letterSpacing: "-2px", margin: "12px 0 18px" },
   paperBody: { fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.35 },
   paperImage: {
-  width: "50%",
-  height: "180px",
+  width: "100%",
+  height: "280px",
   borderRadius: "18px",
   objectFit: "contain",
+  objectPosition: "80% center",
+  background: "#9d998f",
 },
 
   statsGrid: { display: "grid", gridTemplateColumns: grid, gap: "20px", maxWidth: "1180px", margin: "0 auto 20px" },
