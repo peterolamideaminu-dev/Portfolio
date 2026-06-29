@@ -200,7 +200,7 @@ function Newspaper() {
           </p>
         </div>
         <img
-          src="/images/investigator.jpg"
+          src="/investigator.jpg"
           alt="Project XL Investigation"
           style={styles.newspaperImage}
         />
@@ -346,13 +346,13 @@ const styles = {
   paperLine: { height: "2px", background: "#111", margin: "12px 0 8px" },
   paperMeta: { display: "flex", justifyContent: "space-between", gap: "12px", fontSize: "11px", fontWeight: 900, borderBottom: "1px solid #111", paddingBottom: "8px" },
   paperContent: { display: "grid", gridTemplateColumns: grid, gap: "28px", marginTop: "18px", alignItems: "stretch" },
-  paperHeadline: { fontFamily: "Georgia, serif", fontSize: "clamp(34px, 5vw, 62px)", lineHeight: .92, letterSpacing: "-2px", margin: "12px 0 18px" },
+  paperHeadline: { fontFamily: "Georgia, serif", fontSize: "clamp(34px, 5vw, 40px)", lineHeight: .92, letterSpacing: "-2px", margin: "12px 0 18px" },
   paperBody: { fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.35 },
   paperImage: {
-  width: "100%",
-  height: "280px",
+  width: "50%",
+  height: "180px",
   borderRadius: "18px",
-  objectFit: "cover",
+  objectFit: "contain",
 },
 
   statsGrid: { display: "grid", gridTemplateColumns: grid, gap: "20px", maxWidth: "1180px", margin: "0 auto 20px" },
