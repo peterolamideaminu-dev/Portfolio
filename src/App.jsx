@@ -185,25 +185,36 @@ function Newspaper() {
         <h2 style={styles.paperName}>The Project XL Times</h2>
         <span style={styles.paperStamp}>LEVEL 4 CLEARANCE</span>
       </div>
+
       <div style={styles.paperLine}></div>
+
       <div style={styles.paperMeta}>
-        <span>EDITION 002</span><span>CLASSIFIED FILE</span><span>LEVEL 4 CLEARANCE</span>
+        <span>EDITION 002</span>
+        <span>CLASSIFIED FILE</span>
+        <span>LEVEL 4 CLEARANCE</span>
       </div>
 
       <div style={styles.paperContent}>
-        <div>
+        <div style={styles.paperTextColumn}>
           <h1 style={styles.paperHeadline}>
-            EXECUTIVE OFFICER FOR NAUGHTY PROJECTS LOOKS FORWARD TO MORE COMPETITIVE DONATIONS FOLLOWING RECEIPT OF JUST 1 GS.
+            PROJECT XL EXECUTIVE CALLS FOR MORE COMPETITIVE GOLD STAR DONATIONS.
           </h1>
+
           <p style={styles.paperStory}>
-            Following an extensive forensic review, Project XL auditors confirmed that the latest contribution from Yolanda Enterprises consisted of precisely one (1) Gold Star. Headquarters remains grateful for the continued support while quietly expressing optimism that future contributions may better reflect the organisation's rapidly expanding operational costs.
+            Following an extensive forensic review, Project XL auditors confirmed that the latest contribution from Yolanda Enterprises consisted of precisely one (1) Gold Star. Headquarters remains grateful for the continued support while quietly expressing optimism that future contributions may better reflect the organisation&apos;s rapidly expanding operational costs.
           </p>
         </div>
-        <img
-          src="/investigator.jpg"
-          alt="Project XL Investigation"
-          style={styles.newspaperImage}
-        />
+
+        <figure style={styles.paperFigure}>
+          <img
+            src="/investigator.jpg"
+            alt="Project XL Investigation"
+            style={styles.paperImage}
+          />
+          <figcaption style={styles.paperCaption}>
+            Above: Project XL auditors verifying the full extent of the latest contribution.
+          </figcaption>
+        </figure>
       </div>
     </div>
   );
@@ -344,18 +355,14 @@ const styles = {
   paperName: { fontFamily: "Georgia, serif", fontSize: "clamp(28px, 4vw, 44px)", margin: 0 },
   paperStamp: { fontWeight: 900, fontSize: "12px" },
   paperLine: { height: "2px", background: "#111", margin: "12px 0 8px" },
-  paperMeta: { display: "flex", justifyContent: "space-between", gap: "12px", fontSize: "11px", fontWeight: 900, borderBottom: "1px solid #111", paddingBottom: "8px" },
-  paperContent: { display: "grid", gridTemplateColumns: grid, gap: "28px", marginTop: "18px", alignItems: "stretch" },
-  paperHeadline: { fontFamily: "Georgia, serif", fontSize: "clamp(34px, 5vw, 40px)", lineHeight: .92, letterSpacing: "-2px", margin: "12px 0 18px" },
-  paperBody: { fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.35 },
-  paperImage: {
-  width: "100%",
-  height: "280px",
-  borderRadius: "18px",
-  objectFit: "contain",
-  objectPosition: "80% center",
-  background: "#9d998f",
-},
+  paperMeta: { display: "flex", justifyContent: "space-between", gap: "12px", fontSize: "11px", fontWeight: 900, borderBottom: "1px solid #111", paddingBottom: "8px", flexWrap: "wrap" },
+  paperContent: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: "28px", marginTop: "18px", alignItems: "center" },
+  paperTextColumn: { minWidth: 0 },
+  paperHeadline: { fontFamily: "Georgia, serif", fontSize: "clamp(28px, 4vw, 48px)", lineHeight: .95, letterSpacing: "-1.5px", margin: "12px 0 18px" },
+  paperStory: { fontSize: "clamp(15px, 1.7vw, 19px)", lineHeight: 1.45, margin: 0 },
+  paperFigure: { margin: 0, width: "100%" },
+  paperImage: { width: "100%", height: "clamp(230px, 32vw, 360px)", borderRadius: "18px", objectFit: "cover", objectPosition: "72% center", background: "#9d998f", display: "block" },
+  paperCaption: { fontSize: "13px", lineHeight: 1.35, marginTop: "10px", fontStyle: "italic", color: "#333" },
 
   statsGrid: { display: "grid", gridTemplateColumns: grid, gap: "20px", maxWidth: "1180px", margin: "0 auto 20px" },
   stat: { padding: "30px", borderRadius: "18px", textAlign: "center", border: "1px solid rgba(168,85,247,.25)", background: "rgba(255,255,255,.04)", display: "flex", flexDirection: "column", gap: "6px" },
