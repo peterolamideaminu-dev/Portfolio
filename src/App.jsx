@@ -154,8 +154,8 @@ function Archives({ setPage }) {
       <Newspaper />
 
       <div style={styles.statsGrid}>
-        <Stat number="1 GS" label="LAMi Balance" />
-        <Stat number="-3 GS" label="Yolanda Balance" />
+        <Stat number="2 GS" label="LAMi Balance" />
+        <Stat number="-1 GS" label="Yolanda Balance" />
         <Stat number="03" label="Dates Completed" />
       </div>
 
@@ -187,15 +187,23 @@ function Newspaper() {
       </div>
       <div style={styles.paperLine}></div>
       <div style={styles.paperMeta}>
-        <span>EDITION 001</span><span>CLASSIFIED FILE</span><span>LEVEL 4 CLEARANCE</span>
+        <span>EDITION 002</span><span>CLASSIFIED FILE</span><span>LEVEL 4 CLEARANCE</span>
       </div>
 
       <div style={styles.paperContent}>
         <div>
-          <h1 style={styles.paperHeadline}>LOCAL WOMAN DECLARES<br />NEW MORTAL ENEMY.</h1>
-          <p style={styles.paperBody}>In a stunning turn of events, sources close to her confirm a new rival has emerged. Details remain classified.</p>
+          <h1 style={styles.paperHeadline}>
+            EXECUTIVE OFFICER FOR NAUGHTY PROJECTS LOOKS FORWARD TO MORE COMPETITIVE DONATIONS FOLLOWING RECEIPT OF JUST 1 GS.
+          </h1>
+          <p style={styles.paperStory}>
+            Following an extensive forensic review, Project XL auditors confirmed that the latest contribution from Yolanda Enterprises consisted of precisely one (1) Gold Star. Headquarters remains grateful for the continued support while quietly expressing optimism that future contributions may better reflect the organisation's rapidly expanding operational costs.
+          </p>
         </div>
-        <div style={styles.paperImage}></div>
+        <img
+          src="/images/investigator.jpg"
+          alt="Project XL Investigation"
+          style={styles.newspaperImage}
+        />
       </div>
     </div>
   );
@@ -340,7 +348,12 @@ const styles = {
   paperContent: { display: "grid", gridTemplateColumns: grid, gap: "28px", marginTop: "18px", alignItems: "stretch" },
   paperHeadline: { fontFamily: "Georgia, serif", fontSize: "clamp(34px, 5vw, 62px)", lineHeight: .92, letterSpacing: "-2px", margin: "12px 0 18px" },
   paperBody: { fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.35 },
-  paperImage: { minHeight: "220px", borderRadius: "6px", background: "linear-gradient(135deg,#111,#555)" },
+  paperImage: {
+  width: "100%",
+  height: "280px",
+  borderRadius: "18px",
+  objectFit: "cover",
+},
 
   statsGrid: { display: "grid", gridTemplateColumns: grid, gap: "20px", maxWidth: "1180px", margin: "0 auto 20px" },
   stat: { padding: "30px", borderRadius: "18px", textAlign: "center", border: "1px solid rgba(168,85,247,.25)", background: "rgba(255,255,255,.04)", display: "flex", flexDirection: "column", gap: "6px" },
